@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>majiang</title>
+    <style>
+        body {
+            font-size: 15px
+        }
+        label{
+            line-height: 2.5
+        }
+        input{
+            height: 30px
+        }
+        button{
+            width:80%;
+            height:100px;
+        }
+        input[type=checkbox]{
+            width:15px;
+            height:15px;
+        }
+        input[type=radio]{
+            width:15px;
+            height:15px;
+        }
+        input[type=number]{
+            width:40%
+        }
+    </style>
+    <script>
+        function calculate(){
+            var fan = parseInt(document.getElementsByName("fan")[0].value);
+            var fu = 0;
+            var checkbox1 = document.getElementsByName("a");
+
+            if (checkbox1[0].checked) {
+                var v = 0;
+                var checkbox0 = document.getElementsByName("b");
+                for (item in checkbox0) {
+                    if (checkbox0[item].checked) {
+                        v += 2;
+                    }
+                }
+                v
+
+                var checkbox2 = document.getElementsByName("c1");
+                for (item in checkbox2) {
+                    if (checkbox2[item].checked) {
+                        v += 2;
+                    }
+                }
+                var checkbox3 = document.getElementsByName("c2");
+                for (item in checkbox3) {
+                    if (checkbox3[item].checked) {
+                        v += 2;
+                    }
+                }
+                var checkbox4 = document.getElementsByName("c3");
+                for (item in checkbox4) {
+                    if (checkbox4[item].checked) {
+                        v += 10;
+                    }
+                }
+                var ke = document.getElementsByName("b6")[0].value;
+                v += ke * 2;
+                var gang = document.getElementsByName("b7")[0].value;
+                v += gang * 8;
+
+                fu = 20 + v;
+                fu = Math.ceil(fu / 10) * 10;
+            }else
+            if (checkbox1[1].checked) {
+                fu = 25;
+            }else
+            if (checkbox1[2].checked) {
+                fu = 20;
+            }else
+            if (checkbox1[3].checked) {
+                fu = 30;
+            }
+
+            document.getElementById("fu").innerHTML= fu.toString() ;
+
+            var fen = Math.pow(2, (fan + 2)) * fu;
+            var zhuang = Math.ceil(6 * fen / 100) * 100;
+            var zhuang1 = Math.ceil(2 * fen / 100) * 100;
+            var xian = Math.ceil(4 * fen / 100) * 100;
+            var xian1 = Math.ceil(2 * fen / 100) * 100;
+            var xian2 = Math.ceil(fen / 100) * 100;
+
+            switch (fan){
+                case 3:
+                case 4:
+                case 5:
+                    if(zhuang>12000){
+                        zhuang=12000;
+                        zhuang1=4000;
+                        xian=8000;
+                        xian1=4000;
+                        xian2=2000;
+                    }
+                    break;
+                case 6:
+                case 7:
+                    zhuang=18000;
+                    zhuang1=6000;
+                    xian=12000;
+                    xian1=6000;
+                    xian2=3000;
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    zhuang =24000;
+                    zhuang1=8000;
+                    xian=16000;
+                    xian1=8000;
+                    xian2=4000;
+                    break;
+                case 11:
+                case 12:
+                    zhuang =36000;
+                    zhuang1=12000;
+                    xian=24000;
+                    xian1=12000;
+                    xian2=6000;
+                    break;
+
+            }
+            if(fan>12) {
+                zhuang = 48000;
+                zhuang1 = 16000;
+                xian = 32000;
+                xian1 = 16000;
+                xian2 = 8000;
+            }
+
+            document.getElementById("zhuang").innerHTML= zhuang.toString() + "("+ (3*zhuang1).toString() +")";
+            document.getElementById("zhuang1").innerHTML=zhuang1.toString() ;
+            document.getElementById("xian").innerHTML=xian.toString() + "("+ (xian1+2*xian2).toString() +")";
+            document.getElementById("xian1").innerHTML=xian1.toString() ;
+            document.getElementById("xian2").innerHTML=xian2.toString() ;
+
+        }
+
+        function calculate1(x) {
+            var fan = parseInt(document.getElementsByName("fan")[0].value) + x;
+            if(fan<1){
+                fan =1;
+            }
+            document.getElementById("fan").value = fan;
+        }
+
+        function calculate2(x){
+            var a = parseInt(document.getElementById("b6").value) + x;
+            if(a < 0){
+                a = 0;
+            }
+            document.getElementById("b6").value = a;
+        }
+        function calculate3(x){
+            var a = parseInt(document.getElementById("b7").value) + x;
+            if(a < 0){
+                a = 0;
+            }
+            document.getElementById("b7").value = a;
+        }
+    </script>
+</head>
+<body>
+<!--    符数，番数，分数-->
+    庄家分数：<a id="zhuang"></a>
+    自摸每人：<a id="zhuang1"></a>
+    <br>
+    <br>
+    闲家分数：<a id="xian"></a>
+    自摸庄：<a id="xian1"></a>
+    自摸其他：<a id="xian2"></a>
+    <br>
+    <br>
+    <label>番数：
+        <input type="number" name="fan" id="fan" value="1" min="1" step="1" />
+        <button onclick="calculate1(1)" style="width: 60px;height:40px" > +1 </button>
+        <button onclick="calculate1(-1)" style="width: 60px;height:40px" > -1 </button>
+    </label>
+    <br>
+    符数：<a id="fu"></a>
+    <br>
+    <br>
+<!--    符底数-->
+    牌型:<br>
+    <input type="radio" name="a" value="a1" checked />默认
+    <input type="radio" name="a" value="a2" />7对子
+    <input type="radio" name="a" value="a3" />平和自摸
+    <input type="radio" name="a" value="a4" />露副平和荣和
+    <br>
+    雀头:<br>
+    <input type="checkbox" name="b" value="b1" />场风
+    <input type="checkbox" name="b" value="b2" />自风
+    <input type="checkbox" name="b" value="b3" />中
+    <input type="checkbox" name="b" value="b4" />发
+    <input type="checkbox" name="b" value="b5" />白
+    <br>
+    <label>刻数：
+        <input type="number" name="b6" id="b6" value="0" min="0" max="16" step="1"/>
+        <button onclick="calculate2(1)" style="width: 60px;height:40px" > +1 </button>
+        <button onclick="calculate2(-1)" style="width: 60px;height:40px" > -1 </button>
+    </label>
+        <br>
+    <label>杠数：
+        <input type="number" name="b7" id="b7" value="0" min="0" max="16" step="1" />
+        <button onclick="calculate3(1)" style="width: 60px;height:40px" > +1 </button>
+        <button onclick="calculate3(-1)" style="width: 60px;height:40px" > -1 </button>
+    </label>
+    <br>
+    和牌:<br>
+    <input type="checkbox" name="c1" value="c1" />单骑，边张，嵌张
+    <input type="checkbox" name="c2" value="c2" />自摸
+    <input type="checkbox" name="c3" value="c3" />门清荣和
+    <br>
+    <br>
+    <button onclick="calculate()">算分！</button>
+</body>
+</html>
